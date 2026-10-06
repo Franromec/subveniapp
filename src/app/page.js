@@ -240,6 +240,6 @@ export default function SubvenIALanding() {
       <footer className="bg-white border-t border-gray-200 py-8 text-center text-gray-500 text-sm">
         <p>© 2026 SubvenIApp. Tu copiloto legal de subvenciones.</p>
       </footer>
-    </div>
+    </div> 
   );
 }
