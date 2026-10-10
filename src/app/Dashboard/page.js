@@ -1,99 +1,99 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default function Dashboard() {
+export default function DashboardPage() {
   const router = useRouter();
+  const [empresa, setEmpresa] = useState('Mi Empresa');
+  const [telefono, setTelefono] = useState('');
+  const [sector, setSector] = useState('construccion');
+
+  useEffect(() => {
+    // Recuperamos los datos introducidos en el registro de la landing
+    const emp = sessionStorage.getItem('subvenia_empresa');
+    const tel = sessionStorage.getItem('subvenia_telefono');
+    const sec = sessionStorage.getItem('subvenia_sector');
+
+    if (emp) setEmpresa(emp);
+    if (tel) setTelefono(tel);
+    if (sec) setSector(sec);
+  }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50 font-sans text-gray-900">
-      
-      {/* BARRA SUPERIOR DEL PANEL */}
-      <header className="bg-white border-b border-gray-200 px-8 py-4 flex justify-between items-center sticky top-0 z-30 shadow-xs">
-        <div className="text-xl font-black text-blue-600 tracking-tighter">
-          Subven<span className="text-gray-900">IApp</span> <span className="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full font-semibold ml-2">Panel Activo</span>
-        </div>
-        <button 
-          type="button"
-          onClick={() => router.push('/')}
-          className="text-sm font-semibold text-gray-600 hover:text-gray-900 bg-gray-100 px-4 py-2 rounded-xl transition-colors cursor-pointer"
-        >
-          Cerrar sesión ➔
-        </button>
-      </header>
-
-      {/* CONTENIDO DEL PANEL */}
-      <main className="max-w-6xl mx-auto px-6 py-10 space-y-8">
+    <div className="min-h-screen bg-gray-100 p-6 sm:p-10 font-sans text-gray-900">
+      <div className="max-w-6xl mx-auto space-y-8">
         
-        {/* TARJETA DE BIENVENIDA */}
-        <div className="bg-gradient-to-r from-blue-900 to-blue-700 text-white p-8 rounded-3xl shadow-xl">
-          <h1 className="text-3xl font-extrabold mb-2">¡Bienvenido a tu panel de control! 🚀</h1>
-          <p className="text-blue-100 text-sm max-w-2xl leading-relaxed">
-            Tu IA ya está monitorizando en tiempo real el BOE y los boletines autonómicos en busca de ayudas para tu sector. Te avisaremos por WhatsApp en cuanto detectemos una oportunidad compatible.
-          </p>
+        {/* CABECERA DEL DASHBOARD */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-white p-6 rounded-3xl shadow-sm border border-gray-200 gap-4">
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="bg-green-100 text-green-800 text-xs font-bold px-2.5 py-1 rounded-full uppercase">● IA Activa</span>
+              <span className="text-xs text-gray-500 uppercase font-semibold">Sector: {sector}</span>
+            </div>
+            <h1 className="text-2xl font-black text-blue-600 mt-1">Panel de Control: {empresa}</h1>
+            <p className="text-xs text-gray-500 mt-0.5">Alertas configuradas en el móvil: <strong className="text-gray-800">{telefono || 'No especificado'}</strong></p>
+          </div>
+          <button 
+            onClick={() => router.push('/')}
+            className="bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-xl text-xs transition-colors cursor-pointer"
+          >
+            ← Salir al Inicio
+          </button>
         </div>
 
-        {/* ESTADÍSTICAS RÁPIDAS */}
-        <div className="grid sm:grid-cols-3 gap-6">
-          <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
-            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Ayudas Activas en tu Zona</p>
-            <p className="text-3xl font-black text-blue-600">14</p>
-            <p className="text-xs text-gray-500 mt-1">Actualizado hace 5 minutos</p>
+        {/* TARJETAS DE ESTADÍSTICAS */}
+        <div className="grid md:grid-cols-3 gap-6">
+          <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-200">
+            <span className="text-xs font-bold uppercase text-gray-400 block mb-1">Ayudas detectadas</span>
+            <h2 className="text-3xl font-black text-blue-600">4 activas</h2>
+            <p className="text-xs text-gray-500 mt-2">Cruzadas con tu código de actividad en tiempo real.</p>
           </div>
-
-          <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
-            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Estado de Alertas WhatsApp</p>
-            <p className="text-3xl font-black text-green-600">Conectado</p>
-            <p className="text-xs text-gray-500 mt-1">Número verificado correctamente</p>
+          <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-200">
+            <span className="text-xs font-bold uppercase text-gray-400 block mb-1">Importe estimado</span>
+            <h2 className="text-3xl font-black text-green-600">18.000 €</h2>
+            <p className="text-xs text-gray-500 mt-2">Disponibles para solicitud inmediata.</p>
           </div>
-
-          <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
-            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Suscripción Actual</p>
-            <p className="text-3xl font-black text-gray-900">Plan Pyme</p>
-            <p className="text-xs text-gray-500 mt-1">Renovación automática activa</p>
+          <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-200">
+            <span className="text-xs font-bold uppercase text-gray-400 block mb-1">Estado de WhatsApp</span>
+            <h2 className="text-3xl font-black text-purple-600">Sincronizado</h2>
+            <p className="text-xs text-gray-500 mt-2">Avisos automáticos de BOE activados.</p>
           </div>
         </div>
 
-        {/* LISTA DE SUBVENCIONES RECIENTES */}
-        <div className="bg-white p-8 rounded-3xl border border-gray-200 shadow-sm space-y-6">
-          <div className="flex justify-between items-center">
-            <h3 className="text-xl font-bold text-gray-900">📋 Últimas Subvenciones Detectadas</h3>
-            <span className="text-xs bg-green-100 text-green-800 font-bold px-3 py-1 rounded-full">Filtrado por tu sector</span>
-          </div>
-
-          <div className="divide-y divide-gray-100">
-            <div className="py-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        {/* LISTADO DE SUBVENCIONES */}
+        <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-200 space-y-6">
+          <h3 className="text-lg font-bold text-gray-900">📄 Expedientes y Convocatorias del BOE para ti</h3>
+          <div className="space-y-4">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-4 bg-gray-50 rounded-2xl border border-gray-100 gap-4">
               <div>
-                <h4 className="font-bold text-gray-900">Ayuda a la Modernización de Maquinaria y Oficios</h4>
-                <p className="text-xs text-gray-500 mt-0.5">Subvención autonómica a fondo perdido • Plazo abierto hasta el 30 de noviembre</p>
+                <strong className="text-sm text-gray-900 block">Ayuda a la Modernización Digital de Pymes (Kit Digital)</strong>
+                <span className="text-xs text-gray-500">Plazo abierto hasta el 31 de Diciembre • Importe: Hasta 12.000 €</span>
               </div>
               <button 
-                type="button"
-                onClick={() => alert('Generando autocompletado con IA...')}
-                className="bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs py-2.5 px-4 rounded-xl transition-all cursor-pointer whitespace-nowrap shadow-xs"
+                onClick={() => alert('IA analizando perfil fiscal y rellenando formularios oficiales... ¡Listo para firmar digitalmente!')}
+                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-xl text-xs transition-colors cursor-pointer"
               >
-                Autocompletar con IA ⚡
+                Autocompletar con IA ➔
               </button>
             </div>
 
-            <div className="py-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-4 bg-gray-50 rounded-2xl border border-gray-100 gap-4">
               <div>
-                <h4 className="font-bold text-gray-900">Kit Digital - Segmento III (Autónomos)</h4>
-                <p className="text-xs text-gray-500 mt-0.5">Bono digital para digitalización de procesos • Hasta 3.000 €</p>
+                <strong className="text-sm text-gray-900 block">Subvención Autonómica para Inversión en Maquinaria</strong>
+                <span className="text-xs text-gray-500">Plazo abierto • Importe: Hasta 6.000 €</span>
               </div>
               <button 
-                type="button"
-                onClick={() => alert('Generando autocompletado con IA...')}
-                className="bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs py-2.5 px-4 rounded-xl transition-all cursor-pointer whitespace-nowrap shadow-xs"
+                onClick={() => alert('IA analizando perfil fiscal y rellenando formularios oficiales... ¡Listo para firmar digitalmente!')}
+                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-xl text-xs transition-colors cursor-pointer"
               >
-                Autocompletar con IA ⚡
+                Autocompletar con IA ➔
               </button>
             </div>
           </div>
         </div>
 
-      </main>
+      </div>
     </div>
   );
 }
