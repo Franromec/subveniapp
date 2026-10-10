@@ -54,7 +54,7 @@ export default function DashboardPage() {
               <span className="bg-green-100 text-green-800 text-xs font-bold px-2.5 py-1 rounded-full uppercase">● IA Activa</span>
               <span className="text-xs text-gray-500 uppercase font-semibold">Sector: {sector}</span>
             </div>
-            <h1 className="text-2xl font-black text-blue-600 mt-1">Panel de Control: {empresa}</h1>
+           <h1 className="text-2xl font-black text-blue-600 mt-1">Panel de Control (Versión Nueva 2026): {empresa}</h1>
             <p className="text-xs text-gray-500 mt-0.5">Alertas configuradas en el móvil: <strong className="text-gray-800">{telefono || 'No especificado'}</strong></p>
           </div>
           <button 
